@@ -96,7 +96,7 @@ class SubCategory extends Component {
       subCategoryList: res.data.data,
       // productData:
       //   prod.data && prod.data.data && prod.data.data.data
-      //     ? prod.data.data.data
+      //     ? prod.data.data.data!!1
       //     : [],
       productData: (prod.data && prod.data.data) || prod.data.data || {},
     });

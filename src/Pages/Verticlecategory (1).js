@@ -360,10 +360,9 @@ class VerticleCategory extends Component {
 
 	};
 	onClickGenerateShareLink = () => {
-		let tempUrl = "https://" +window.location.hostname + "/all-product/"+'subCategoryId='+window.location.href.slice(
-			window.location.href.lastIndexOf("/") + 1
-		);		if (this.state.verticleCategories !== null) {
-		  tempUrl = `${tempUrl}&vertical=${this.state.verticleCategories}&`;
+		let tempUrl = "https://" +window.location.hostname + "/all-product/"
+		if (this.state.verticleCategories !== null) {
+		  tempUrl = `${tempUrl}vertical_id=${this.state.verticleCategories}`;
 		}
 		// if (this.state.stateValue !== null) {
 		// 	tempUrl = `${tempUrl}&state=${this.state.stateValue}&`;
@@ -371,19 +370,16 @@ class VerticleCategory extends Component {
 		//   if (this.state.districtValue !== null) {
 		// 	tempUrl = `${tempUrl}&district=${this.state.districtValue}&`;
 		//   }
-		if (this.state.sort !== null) {
-			tempUrl = `${tempUrl}sortBy=${this.state.sort}&`;
-		  }
 		if (this.state.sortOrderValue !== null) {
 			tempUrl = `${tempUrl}&sortOrder=${this.state.sortOrderValue}&`;
 		  }
-
+		if (this.state.sort !== null) {
+		  tempUrl = `${tempUrl}&sortBy=${this.state.sort}&`;
+		}
 
 		console.log('temppppppppppppppppp url', tempUrl)
 		return tempUrl;
 	  };
-
-
 	handleScroll=(e)=>{
 		let botton = e.target.scrollHeight-e.target.clientHeight-e.target.scrollTop< 50;
 		if(botton){
@@ -515,7 +511,7 @@ class VerticleCategory extends Component {
 								<div style={{ marginBottom: "5px", marginTop: "5px" }}>
 									{		this.state.openProductScroll&&			<Button
 							onClick={this.handleOpen}
-						y	style={{ float: "right", color: "orange", fontWeight: "700" }}
+							style={{ float: "right", color: "orange", fontWeight: "700" }}
 						>
 							<FilterListIcon />
 							Share Result
@@ -528,69 +524,7 @@ class VerticleCategory extends Component {
 										Sort & Filters
 									</Button>
 								</div>
-                
 							}
-              						<>
-              <Drawer
-                anchor="bottom"
-				open={this.state.open}
-				onClose={this.handleClose}
-              >
-                <div
-                  style={{
-                    width: "100%",
-                    height: "150px",
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    padding: "5px",
-                  }}
-                >
-                  <div className="ProductDetailShareButton">
-                    <WhatsappShareButton url={this.onClickGenerateShareLink()}>
-                      <WhatsappIcon />
-                    </WhatsappShareButton>
-                  </div>
-                  <div className="ProductDetailShareButton">
-                    <FacebookShareButton url={this.onClickGenerateShareLink()}>
-                      <FacebookIcon />
-                    </FacebookShareButton>
-                  </div>
-                  <div className="ProductDetailShareButton">
-                    <TelegramShareButton url={this.onClickGenerateShareLink()}>
-                      <TelegramIcon />
-                    </TelegramShareButton>
-                  </div>
-                  <div className="ProductDetailShareButton">
-                    <TwitterShareButton url={this.onClickGenerateShareLink()}>
-                      <TwitterIcon />
-                    </TwitterShareButton>
-                  </div>
-                  <div className="ProductDetailShareButton">
-                    <PinterestShareButton url={this.onClickGenerateShareLink()}>
-                      <PinterestIcon />
-                    </PinterestShareButton>
-                  </div>
-                  <div className="ProductDetailShareButton">
-                    <LinkedinShareButton url={this.onClickGenerateShareLink()}>
-                      <LinkedinIcon />
-                    </LinkedinShareButton>
-                  </div>
-                  <div className="ProductDetailShareButton">
-                    <EmailShareButton url={this.onClickGenerateShareLink()}>
-                      <EmailIcon />
-                    </EmailShareButton>
-                  </div>
-                  <div className="ProductDetailShareButton">
-                    <InstapaperShareButton
-                      url={this.onClickGenerateShareLink()}
-                    >
-                      <InstapaperIcon />
-                    </InstapaperShareButton>
-                  </div>
-                </div>
-              </Drawer>
-            </>
 							<div>
 								<Drawer
 									anchor="bottom"
@@ -761,7 +695,7 @@ class VerticleCategory extends Component {
 							) : (
 								<NoDataFound content="No Product Found" />
 							)}
-	{/* <Modal
+	<Modal
 					open={this.state.open}
 					onClose={this.handleClose}
 					style={{
@@ -818,7 +752,7 @@ class VerticleCategory extends Component {
 
 
                 </div>
-						</Modal> */}
+						</Modal>
 						</div>
 					)}
 				</div>

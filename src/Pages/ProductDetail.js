@@ -64,6 +64,7 @@ class ProductDetail extends Component {
       window.location.href.lastIndexOf("/") + 1
     );
     const res = await getProductDetail(id);
+
     this.setState({ load: false, data: res.data.data });
     const result1 = await getQuantity();
     this.setState({ quantityType: result1.data.data });

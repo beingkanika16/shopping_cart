@@ -65,12 +65,15 @@ class Login extends Component {
 
 
   onClickRequestOtp =  (e) => {
+    console.log('inside the firebase');
     this.setState({ load: false });
 
     let cap = this.state.disableResendButton? document.getElementById('mydiv'):  document.getElementById('mydivCap') ;
     this.setState({
       load: true,
     })
+    console.log('inside the firebasecap');
+
     let recaptcha = new firebase.auth.RecaptchaVerifier(cap,{
       size: "invisible"
   });
@@ -84,6 +87,7 @@ firebase
   this.setState({
     load: false,
   })
+  console.log('resssssssssssssssssssss', result);
             this.setState({
               final: result
             })
@@ -99,6 +103,8 @@ firebase
               this.setState({
                 load: false,
               });
+              console.log('resssssssssssssssssssss', err);
+
             this.setState({mobileerror: true ,errorMessage: 'Please Enter the valid input'})
             // window.location.reload();
             });

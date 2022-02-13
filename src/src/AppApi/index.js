@@ -88,20 +88,20 @@ export const sendOtp = async (mobile, otp) => {
   }
 };
 
-export const login = async () => {
-  await Swal.fire({
-    text: "Enter your mobile number to continue",
-    input: "number",
-    inputAttributes: {
-      autocapitalize: "off",
-    },
-    confirmButtonText: "Request OTP",
-    showLoaderOnConfirm: true,
-    preConfirm: (number) => {
-      return sendMobileNumber(number);
-    },
-  });
-};
+// export const login = async () => {
+//   await Swal.fire({
+//     text: "Enter your mobile number to continue",
+//     input: "number",
+//     inputAttributes: {
+//       autocapitalize: "off",
+//     },
+//     confirmButtonText: "Request OTP",
+//     showLoaderOnConfirm: true,
+//     preConfirm: (number) => {
+//       return sendMobileNumber(number);
+//     },
+//   });
+// };
 
 export const addToCartApi = async (body) => {
   const res = await axios.post(BASE_URL + ENDPOINT_ADD_TO_CART, body, {

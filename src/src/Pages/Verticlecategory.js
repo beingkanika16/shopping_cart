@@ -75,7 +75,6 @@ class VerticleCategory extends Component {
     params.page = id + 1;
     this.setState({ load: true, params });
     const prod = await getProducts(params);
-    console.log(prod);
     this.setState({
       load: false,
       productData: (prod.data && prod.data.data) || prod.data.data || {},

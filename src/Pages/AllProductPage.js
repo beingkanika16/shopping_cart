@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
@@ -20,7 +21,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import Product from "../Component/Product";
+import Product from "../Component/AllProducts";
 import "../AppAsset/CSS/AllProductPage.css";
 import Banners from "../Component/Banners";
 import {
@@ -65,13 +66,13 @@ class AllProductPage extends Component {
       load: true,
       productData: [],
       searchKey: null,
-      sort: null,
-      sortOrder: null,
-      category: null,
-      verticleCategories: null,
-      subCategories: null,
-      state: null,
-      district: null,
+      sort: [],
+      sortOrder:[],
+      category: [],
+      verticleCategories: [],
+      subCategories: [],
+      state: [],
+      district: [],
       price: null,
       subCategoryList: [],
       verticalCategoryList: [],
@@ -79,6 +80,8 @@ class AllProductPage extends Component {
       drawer: false,
       shareDrawer: false,
       params: { page: 1 },
+	  dataList:[],
+    type: 'all',
     };
   }
 
@@ -192,6 +195,9 @@ class AllProductPage extends Component {
       sort: sortByTemp,
       sortOrder: sortOrderTemp,
     });
+	console.log('datttttttttttttttttttttt', this.state.productData);
+	this.state.dataList.push(this.state.productData);
+
   };
   getProductList = async () => {
     const params = {
@@ -218,17 +224,145 @@ class AllProductPage extends Component {
   };
 
   pageChangeCallback = async (id) => {
-    const params = this.state.params;
-    params.page = id + 1;
-    this.setState({ load: true, params });
-    const prod = await getProducts(params);
-    console.log(prod);
+    if(id === 'all'){
+      console.log('allllllllllllllllllllllllllllllllllllllllllll');
+      const tempString = window.location.href.slice(
+        window.location.href.lastIndexOf("/") + 1
+        );
+        let verticalIdTemp = null;
+    
+        if (tempString.indexOf(vertical) !== -1) {
+        verticalIdTemp = tempString.slice(
+          tempString.indexOf(vertical) + vertical.length,
+          tempString.indexOf("&", tempString.indexOf(vertical) + vertical.length)
+        );
+        }
+       
+        const params = {
+        vertical_id: verticalIdTemp,
+        page: this.state.productData.current_page+1,
+        };
+        const prod = await getProducts(params);
     this.setState({
       load: false,
       productData: (prod.data && prod.data.data) || prod.data.data || {},
     });
-  };
+        console.log('prodddddddddddddddddddd', this.state.productData)
 
+    }
+    if(id !== 'all'){
+
+    const params = this.state.params;
+    console.log('innnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn:::::::::::::::::::::::::::::::::::::::::::::::::::', this.state.type);
+    params.page = id + 1;
+      const prod = await getProducts(params);
+    this.setState({
+      load: false,
+      productData: (prod.data && prod.data.data) || prod.data.data || {},
+    });
+  console.log('prodddddddddddddddddddd', this.state.productData)
+  }
+  };
+verticalCall = async (page) => {
+	const tempString = window.location.href.slice(
+		window.location.href.lastIndexOf("/") + 1
+	  );
+	  let verticalIdTemp = null;
+	  let categoryIdTemp = null;
+	  let subCategoryIdTemp = null;
+	  let stateTemp = null;
+	  let districtTemp = null;
+	  let sortByTemp = null;
+	  let sortOrderTemp = null;
+	  let searchkeyTemp = null;
+
+	  if (tempString.indexOf(vertical) !== -1) {
+		verticalIdTemp = tempString.slice(
+		  tempString.indexOf(vertical) + vertical.length,
+		  tempString.indexOf("&", tempString.indexOf(vertical) + vertical.length)
+		);
+	  }
+	  if (tempString.indexOf(categoryId) !== -1) {
+		categoryIdTemp = tempString.slice(
+		  tempString.indexOf(categoryId) + categoryId.length,
+		  tempString.indexOf(
+			"&",
+			tempString.indexOf(categoryId) + categoryId.length
+		  )
+		);
+		const tempSubCategoryList = await getSubCategory(
+		  parseInt(categoryIdTemp, 10)
+		);
+		this.setState({ subCategoryList: tempSubCategoryList.data.data });
+	  }
+	  if (tempString.indexOf(subCategoryId) !== -1) {
+		subCategoryIdTemp = tempString.slice(
+		  tempString.indexOf(subCategoryId) + subCategoryId.length,
+		  tempString.indexOf(
+			"&",
+			tempString.indexOf(subCategoryId) + subCategoryId.length
+		  )
+		);
+		const tempVerticalData = await getVerticalCategory(
+		  parseInt(subCategoryIdTemp, 10)
+		);
+		this.setState({ verticalCategoryList: tempVerticalData.data.data });
+	  }
+	  if (tempString.indexOf(state) !== -1) {
+		stateTemp = tempString.slice(
+		  tempString.indexOf(state) + state.length,
+		  tempString.indexOf("&", tempString.indexOf(state) + state.length)
+		);
+		const tempDistrictData = await getDistrict(stateTemp);
+
+		this.setState({ districtList: tempDistrictData });
+	  }
+	  if (tempString.indexOf(district) !== -1) {
+		districtTemp = tempString.slice(
+		  tempString.indexOf(district) + district.length,
+		  tempString.indexOf("&", tempString.indexOf(district) + district.length)
+		);
+	  }
+	  if (tempString.indexOf(sortBy) !== -1) {
+		sortByTemp = tempString.slice(
+		  tempString.indexOf(sortBy) + sortBy.length,
+		  tempString.indexOf("&", tempString.indexOf(sortBy) + sortBy.length)
+		);
+	  }
+	  if (tempString.indexOf(sortOrder) !== -1) {
+		sortOrderTemp = tempString.slice(
+		  tempString.indexOf(sortOrder) + sortOrder.length,
+		  tempString.indexOf(
+			"&",
+			tempString.indexOf(sortOrder) + sortOrder.length
+		  )
+		);
+	  }
+	  if (tempString.indexOf(search) !== -1) {
+		searchkeyTemp = tempString.slice(
+		  tempString.indexOf(search) + search.length,
+		  tempString.indexOf("&", tempString.indexOf(search) + search.length)
+		);
+	  }
+	  const params = {
+		search_key: searchkeyTemp,
+		category_id: categoryIdTemp,
+		vertical_id: verticalIdTemp,
+		subcategory_id: subCategoryIdTemp,
+		state: stateTemp,
+		district: districtTemp,
+		sortBy: sortByTemp,
+		sortOrder: sortOrderTemp,
+		page: page+1,
+	  };
+    const prod = await getProducts(params);
+    this.setState({
+      load: false,
+      productData: (prod.data && prod.data.data) || prod.data.data || {},
+    });
+	console.log('innnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn', this.state.productData);
+
+  };
   onClickCategoryHandle = async (id) => {
     this.props.history.push(`/${ROUTE_SUBCATEGORIES}/${id}`);
   };
@@ -310,6 +444,7 @@ class AllProductPage extends Component {
   };
 
   onDrawerClick = (p) => {
+console.log('opennnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
     this.setState({ drawer: p });
   };
 
@@ -569,6 +704,8 @@ class AllProductPage extends Component {
                 sortOrderValue={this.state.sortOrder}
                 drawer={this.state.drawer}
                 onDrawerClick={this.onDrawerClick}
+                type={this.state.type}
+                verticalCall={this.verticalCall}
               />
             )}
           </div>

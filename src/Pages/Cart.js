@@ -407,10 +407,8 @@ function SimpleDialog(props) {
 
   const handleClose = () => {
     if (valueData == randomNr.current.randomNr1 + randomNr.current.randomNr2) {
-      console.log("verified!!");
       onClose(1);
     } else {
-      console.log("verification failed!!!");
       onClose(0);
     }
   };

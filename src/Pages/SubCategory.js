@@ -50,7 +50,10 @@ class SubCategory extends Component {
       districtList: [],
       drawer: false,
       listData: [],
+      type: 'category',
       params: { page: 1 },
+	  verticalDataItem: [],
+	  openProductList: true,
     };
   }
 
@@ -64,8 +67,11 @@ class SubCategory extends Component {
         page: 1,
       };
       this.setState({ params });
-      const res = await getSubCategory(id);
+      const res = await getSubCategory(id)
+
+;
       const prod = await getProducts(params);
+
       console.log(prod);
       this.setState({
         load: false,
@@ -89,10 +95,11 @@ class SubCategory extends Component {
       page: 1,
     };
     this.setState({ params });
-    const res = await getSubCategory(id);
+    const res = await getSubCategory(id)
+
+;
     const prod = await getProducts(params);
 
-    console.log(prod);
 this.setState({
       load: false,
       data: res.data.data,
@@ -104,8 +111,7 @@ this.setState({
       productData: (prod.data && prod.data.data) || prod.data.data || {},
     });
     this.state.listData.push(this.state.productData.data)
-    console.log
-    this.state.productData.data && this.state.productData.data.length ? this.state.listData.push(this.state.productData.data): ''
+    // this.state.productData.data && this.state.productData.data.length ? this.state.listData.push(this.state.productData.data): ''
 
 
   };
@@ -117,7 +123,9 @@ this.setState({
   onClickCategoryHandle = async (id) => {
     this.props.history.push(`/${ROUTE_SUBCATEGORIES}/${id}`);
     this.setState({ load: true, data: [] });
-    const res = await getSubCategory(id);
+    const res = await getSubCategory(id)
+
+;
     this.setState({
       load: false,
       data: res.data.data,
@@ -129,10 +137,12 @@ this.setState({
 
   onFilterChangeHandle = async (e) => {
     const name = e.target.name;
+	console.log('dataaaaaaaaaaaaaaaaaa', this.state.verticalCategoryList);
+
     this.setState({
       ...this.state,
-      [name]: e.target.value,
-    }); 
+      [name]: e.target.value,    });
+	console.log('namemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm', e.target.name);
     typeof value === 'string' ?  e.target.value.split(',') :  e.target.valuevalue;
     if (e.target.name === "category") {
       const tempSubCategoryList = await getSubCategory(e.target.value);
@@ -140,8 +150,32 @@ this.setState({
     }
 
     if (e.target.name === "subCategories") {
-      const tempVerticalData = await getVerticalCategory(e.target.value);
-      this.setState({ verticalCategoryList: tempVerticalData.data.data });
+		console.log('inside the value', e.target.value)
+		let data = e.target.value;
+		for(let i= 0; i <= data.length ; i++){
+			const tempVerticalData = await getVerticalCategory(data[i]);
+			console.log('temp vvvvvvvvvvvvvvvvvvvvv', tempVerticalData)
+      let second=[];
+		second = tempVerticalData.data;
+    this.setState({
+      verticalDataItem: tempVerticalData.data && tempVerticalData.data
+    })
+    console.log('verticalDataItemverticalDataItem', this.state.verticalDataItem);
+
+    if(second.message === 'Verticals')   {
+      let list= [...this.state.verticalCategoryList , ...this.state.verticalDataItem.data]
+    console.log('list', list)
+    this.setState({verticalCategoryList : list})
+    console.log('techhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh', this.state.verticalCategoryList);
+// console.log('secccccccccccccccccccc', second, this.state.verticalCategoryList)
+// 		second && second.message === 'Verticals'? this.state.verticalCategoryList.push(second.data): ''
+// 			console.log('temp values', 	this.state.verticalCategoryList);
+console.log('techhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh', this.state.verticalCategoryList);
+
+}
+console.log('techhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh', this.state.verticalCategoryList);
+
+		}
     }
 
     if (e.target.name === "state") {
@@ -155,11 +189,12 @@ this.setState({
     params.page = id+1;
     this.setState({ load: true, params });
     const prod = await getProducts(params);
+
     this.setState({
       load: false,
       productData: (prod.data && prod.data.data) || prod.data.data || {},
     });
-    this.state.productData.data && this.state.productData.data.length ? this.state.listData.push(this.state.productData.data): ''
+    // this.state.productData.data && this.state.productData.data.length ? this.state.listData.push(this.state.productData.data): ''
   };
 
   onFilterReset = async () => {
@@ -173,7 +208,7 @@ this.setState({
       subCategories: null,
       state: null,
       district: null,
-      verticalCategoryList: null,
+      verticalCategoryList: [],
       districtList: [],
     });
     const id = window.location.href.slice(
@@ -186,31 +221,16 @@ this.setState({
 
     this.setState({ params });
     const res = await getProducts(params);
+
     this.setState({
       load: false,
       productData: res.data && res.data.data ? res.data.data : {},
     });
   };
 
-  onFilterSubmit = async () => {
-    this.setState({ drawer: false, load: true, productData: [] });
-    const params = {
-      category_id: this.state.categoryId,
-      subcategory_id: this.state.subCategories,
-      vertical_id: this.state.verticleCategories,
-      sortBy: this.state.sort,
-      sortOrder: this.state.sortOrder,
-      state: this.state.state,
-      district: this.state.district,
-      page: 1,
-    };
+  onFilterSubmit = async (p) => {
+    this.setState({ drawer: p});
 
-    this.setState({ params });
-    const res = await getProducts(params);
-    this.setState({
-      load: false,
-      productData: res.data && res.data.data ? res.data.data : {},
-    });
   };
 
   onDrawerClick = (p) => {
@@ -348,6 +368,7 @@ this.setState({
               }
               productData={this.state.productData}
               listData= {this.state.listData}
+              type={this.state.type}
               pageChangeCallback={this.pageChangeCallback}
               subCategoryList={this.state.subCategoryList}
               verticalCategoryList={this.state.verticalCategoryList}
@@ -356,6 +377,7 @@ this.setState({
               districtValue={this.state.districtValue}
               sortOrderValue={this.state.sortOrder}
               drawer={this.state.drawer}
+			  openProductList={this.state.openProductList}
               onDrawerClick={this.onDrawerClick}
             />
           )}

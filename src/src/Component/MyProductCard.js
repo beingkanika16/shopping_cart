@@ -179,7 +179,7 @@ export default function MyProductCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={props.product.images.[0]?props.product.images.[0].thumbnail:"./default-img.jpg"}
+          // image={props.product.images.[0]?props.product.images.[0].thumbnail:"./default-img.jpg"}
           title={props.product.name}
         />
         <CardContent>

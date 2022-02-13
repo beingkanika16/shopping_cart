@@ -21,12 +21,12 @@ import {
   RedditShareButton,
   TelegramShareButton,
   TwitterShareButton,
-  WhatsappShareButton,  
+  WhatsappShareButton,
   FacebookIcon,
   TwitterIcon,
   TelegramIcon,
   RedditIcon,
-  WhatsappIcon,  
+  WhatsappIcon,
   LinkedinIcon,
   EmailIcon,
 } from "react-share";
@@ -124,15 +124,15 @@ export default function MyProductCard(props) {
           quote={`Checkout this product in badhat`}>
           <FacebookIcon size={32} round={true}/>
         </FacebookShareButton>
-  
+
         <TwitterShareButton
           className={classes.socialBtns}
           url={url}
           hashtags={["badhat"]}
           title={`Checkout this product in badhat`}>
-          <TwitterIcon size={32} round={true} />        
+          <TwitterIcon size={32} round={true} />
         </TwitterShareButton>
-  
+
         <EmailShareButton
           className={classes.socialBtns}
           subject={`Check out the product in badhat`}
@@ -145,21 +145,21 @@ export default function MyProductCard(props) {
           url={url}
           summary={props.product.name}
           title={`Checkout this product in badhat`}>
-          <LinkedinIcon size={32} round={true} />        
-        </LinkedinShareButton>       
+          <LinkedinIcon size={32} round={true} />
+        </LinkedinShareButton>
 
         <TelegramShareButton
           className={classes.socialBtns}
           url={url}
           title={`Checkout this product in badhat`}>
-          <TelegramIcon size={32} round={true} />        
+          <TelegramIcon size={32} round={true} />
         </TelegramShareButton>
 
         <RedditShareButton
           className={classes.socialBtns}
           url={url}
           title={`Checkout this product in badhat`}>
-          <RedditIcon size={32} round={true} />        
+          <RedditIcon size={32} round={true} />
         </RedditShareButton>
 
         <WhatsappShareButton
@@ -167,8 +167,8 @@ export default function MyProductCard(props) {
           url={url}
           separator=" || "
           title={`Checkout this product in badhat`}>
-          <WhatsappIcon size={32} round={true} />        
-        </WhatsappShareButton>                         
+          <WhatsappIcon size={32} round={true} />
+        </WhatsappShareButton>
       </div>
     </div>
   );
@@ -179,14 +179,14 @@ export default function MyProductCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={props.product.images.[0]?props.product.images.[0].thumbnail:"./default-img.jpg"}
+        //   image={props.product.images.[0]?props.product.images.[0].thumbnail:"./default-img.jpg"}
           title={props.product.name}
         />
         <CardContent>
     	    	<Typography gutterBottom variant="h5" component="h2">
 	        	    {props.product.name}
-          		</Typography>        		
-        	<div className={classes.shareBtnAlign}>			
+          		</Typography>
+        	<div className={classes.shareBtnAlign}>
           <div className={classes.subitem}>
 	        	<Typography variant="body2" className={classes.catColor} component="div">
             		<b>Category: {props.product.category?.name}</b>
